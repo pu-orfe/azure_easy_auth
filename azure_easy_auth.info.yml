@@ -1,0 +1,7 @@
+name: 'Azure Easy Auth Integration'
+type: module
+description: 'Integrates Azure Active Directory / Entra ID authentication and enforces validation against AUTHORIZED_PRINCIPALS.'
+core_version_requirement: ^9.4 || ^10 || ^11
+package: Custom
+dependencies:
+  - user

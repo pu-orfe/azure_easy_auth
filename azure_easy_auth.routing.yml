@@ -1,0 +1,7 @@
+azure_easy_auth.simulate_login:
+  path: '/user/simulate-login'
+  defaults:
+    _controller: '\Drupal\azure_easy_auth\Controller\SimulateLoginController::simulate'
+    _title: 'Simulate Entra ID Login'
+  requirements:
+    _access: 'TRUE'

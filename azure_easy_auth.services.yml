@@ -1,0 +1,8 @@
+services:
+  azure_easy_auth.validator:
+    class: Drupal\azure_easy_auth\AzureEasyAuthValidator
+
+  azure_easy_auth.guzzle_middleware:
+    class: Drupal\azure_easy_auth\AzureEasyAuthGuzzleMiddleware
+    tags:
+      - { name: http_client_middleware }

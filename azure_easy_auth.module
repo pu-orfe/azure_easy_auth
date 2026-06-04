@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Azure Easy Auth Integration module.
+ */
+
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_user_login().
+ */
+function azure_easy_auth_user_login(AccountInterface $account) {
+  // Allow administrators to bypass this check so they can always log in locally.
+  if (in_array('administrator', $account->getRoles())) {
+    return;
+  }
+
+  /** @var \Drupal\azure_easy_auth\AzureEasyAuthValidator $validator */
+  $validator = \Drupal::service('azure_easy_auth.validator');
+
+  if (!$validator->isAuthorized($account)) {
+    // Log out the user immediately.
+    \Drupal::service('session_manager')->destroy();
+
+    // Add error message.
+    \Drupal::messenger()->addError(t('Your account (@email) is not authorized to access this database. Please contact the administrator.', [
+      '@email' => $account->getEmail(),
+    ]));
+
+    // Redirect to home page.
+    $response = new \Symfony\Component\HttpFoundation\RedirectResponse(\Drupal\Core\Url::fromRoute('<front>')->toString());
+    $response->send();
+    exit();
+  }
+}

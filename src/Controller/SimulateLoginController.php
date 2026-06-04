@@ -71,4 +71,3 @@ class SimulateLoginController extends ControllerBase {
   }
 
 }
-```

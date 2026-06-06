@@ -20,6 +20,12 @@ class AzureEasyAuthValidator {
    *   TRUE if authorized, FALSE otherwise.
    */
   public function isAuthorized(AccountInterface $account) {
+    // If restricting to the authorized principals list is disabled, allow login
+    // for any valid authenticated Drupal account.
+    if (!Settings::get('azure_easy_auth.restrict_to_principals', TRUE)) {
+      return TRUE;
+    }
+
     $email = $account->getEmail();
     $name = $account->getAccountName();
 

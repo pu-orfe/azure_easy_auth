@@ -82,4 +82,27 @@ class AzureEasyAuthValidatorTest extends TestCase {
     $this->assertFalse($this->validator->isAuthorized($empty_account));
   }
 
+  /**
+   * Tests validation when restrict_to_principals is disabled.
+   */
+  public function testIsAuthorizedWithRestrictToPrincipalsDisabled() {
+    // Setup Settings mock with restrict_to_principals = FALSE.
+    new Settings([
+      'azure_easy_auth.restrict_to_principals' => FALSE,
+      'azure_easy_auth.authorized_principals' => ['authorized@princeton.edu'],
+    ]);
+
+    // Test any user is authorized when restrictions are disabled.
+    $unauthorized_account = $this->createMock(AccountInterface::class);
+    $unauthorized_account->expects($this->any())
+      ->method('getEmail')
+      ->willReturn('unauthorized@princeton.edu');
+    $unauthorized_account->expects($this->any())
+      ->method('getAccountName')
+      ->willReturn('unauthorized_name');
+
+    $this->assertTrue($this->validator->isAuthorized($unauthorized_account));
+  }
+
 }
+

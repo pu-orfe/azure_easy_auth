@@ -33,7 +33,7 @@ $settings['is_local_dev'] = (getenv('IS_LOCAL_DEV') === 'true');
 In local development environments (where `IS_LOCAL_DEV=true` is set), developers can bypass Azure configuration and login locally by visiting:
 
 ```text
-http://localhost/user/simulate-login?email=bino@princeton.edu
+http://localhost/user/simulate-login?email=user@example.com
 ```
 
 ---

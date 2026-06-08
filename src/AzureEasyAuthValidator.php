@@ -30,11 +30,12 @@ class AzureEasyAuthValidator {
     $name = $account->getAccountName();
 
     $authorized_principals = Settings::get('azure_easy_auth.authorized_principals', []);
+    $authorized_principals_lower = array_map('strtolower', $authorized_principals);
 
-    if (!empty($email) && in_array($email, $authorized_principals)) {
+    if (!empty($email) && in_array(strtolower($email), $authorized_principals_lower)) {
       return TRUE;
     }
-    if (!empty($name) && in_array($name, $authorized_principals)) {
+    if (!empty($name) && in_array(strtolower($name), $authorized_principals_lower)) {
       return TRUE;
     }
 

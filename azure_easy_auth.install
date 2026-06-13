@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the azure_easy_auth module.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Restore the Reports menu link and hook up its submenus.
+ */
+function azure_easy_auth_update_8001() {
+  $uuid = '2abaca89-3e8f-4ee8-9743-ca599e0400fb';
+  $storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $entities = $storage->loadByProperties(['uuid' => $uuid]);
+
+  if (empty($entities)) {
+    $menu_link = MenuLinkContent::create([
+      'title' => 'Reports',
+      'link' => ['uri' => 'route:<none>'],
+      'menu_name' => 'main',
+      'uuid' => $uuid,
+      'expanded' => TRUE,
+      'enabled' => TRUE,
+    ]);
+    $menu_link->save();
+  } else {
+    // Ensure the existing one is expanded and enabled.
+    $menu_link = reset($entities);
+    if (!$menu_link->isExpanded() || !$menu_link->isEnabled()) {
+      $menu_link->set('expanded', TRUE);
+      $menu_link->set('enabled', TRUE);
+      $menu_link->save();
+    }
+  }
+
+  // Update the views configuration in active config to set their menu parent.
+  $views = ['by_year', 'custom_report', 'enrollment_and_support', 'office_assignments'];
+  foreach ($views as $view_id) {
+    $config = \Drupal::configFactory()->getEditable("views.view.$view_id");
+    if ($config) {
+      $displays = $config->get('display');
+      $changed = FALSE;
+      if (is_array($displays)) {
+        foreach ($displays as $display_id => &$display) {
+          if (isset($display['display_options']['menu'])) {
+            $menu = &$display['display_options']['menu'];
+            if (isset($menu['type']) && ($menu['type'] == 'normal' || $menu['type'] == 'tab')) {
+              $menu['parent'] = 'menu_link_content:' . $uuid;
+              $changed = TRUE;
+            }
+          }
+        }
+      }
+      if ($changed) {
+        $config->set('display', $displays);
+        $config->save(TRUE);
+      }
+    }
+  }
+}

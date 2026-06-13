@@ -60,3 +60,35 @@ function azure_easy_auth_update_8001() {
     }
   }
 }
+
+/**
+ * Rename "Add Student Record" menu item to "Add Student" and remove "Download CSV" menu item.
+ */
+function azure_easy_auth_update_8002() {
+  $storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  
+  // 1. Rename "Add Student Record" to "Add Student"
+  $uuid = 'b43bb478-05d5-4b71-bfb8-2b9311589fe2';
+  $entities = $storage->loadByProperties(['uuid' => $uuid]);
+  if (!empty($entities)) {
+    $menu_link = reset($entities);
+    if ($menu_link->getTitle() !== 'Add Student') {
+      $menu_link->setTitle('Add Student');
+      $menu_link->save();
+    }
+  } else {
+    // If UUID doesn't match/exist, find by title
+    $entities = $storage->loadByProperties(['title' => 'Add Student Record']);
+    foreach ($entities as $menu_link) {
+      $menu_link->setTitle('Add Student');
+      $menu_link->save();
+    }
+  }
+
+  // 2. Remove "Download CSV" menu item
+  $entities = $storage->loadByProperties(['title' => 'Download CSV']);
+  foreach ($entities as $menu_link) {
+    $menu_link->delete();
+  }
+}
+

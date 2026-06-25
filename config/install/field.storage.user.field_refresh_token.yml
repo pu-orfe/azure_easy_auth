@@ -1,0 +1,21 @@
+uuid: 20e9e821-b3c5-4d76-953a-bec00e3c6da2
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: lBu3Vpm5PNPufPeJHrsVUbRQCLNos1kSD3SGhP3rmVo
+id: user.field_refresh_token
+field_name: field_refresh_token
+entity_type: user
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: true
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

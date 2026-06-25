@@ -1,0 +1,21 @@
+uuid: ccb5f311-a4ff-4aa4-98cb-983e44d281aa
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: j0cLCu4pgQ7YGb43mEI3aV_d4VBdrgO0AD65BZM7Y7E
+id: user.field_access_token
+field_name: field_access_token
+entity_type: user
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: true
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

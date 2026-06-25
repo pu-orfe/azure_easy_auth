@@ -1,0 +1,22 @@
+uuid: b142a276-cb6a-4136-941c-6d05a08e9d4a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_refresh_token
+  module:
+    - user
+_core:
+  default_config_hash: Nqgo1AUiFs7yZ0G4vB0ZCc7azzmTK5xJkGfL1dOVTB0
+id: user.user.field_refresh_token
+field_name: field_refresh_token
+entity_type: user
+bundle: user
+label: 'Refresh Token'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

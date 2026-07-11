@@ -6,3 +6,10 @@ services:
     class: Drupal\azure_easy_auth\AzureEasyAuthGuzzleMiddleware
     tags:
       - { name: http_client_middleware }
+
+  azure_easy_auth.subscriber:
+    class: Drupal\azure_easy_auth\EventSubscriber\AzureEasyAuthSubscriber
+    arguments: ['@current_user', '@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
